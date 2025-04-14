@@ -1,0 +1,40 @@
+name: tests
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 16 * *'
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  when-aws-cli-does-not-exist:
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 5
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-latest ]
+        arch: [ x64, arm64 ]
+
+    steps:
+      - uses: actions/checkout@v4
+      # remove pre-existing one
+      - run: sudo rm -rf /usr/local/aws-cli
+      - name: Execute the action
+        uses: ./
+      - run: aws --version
+
+  when-aws-cli-already-exists:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Execute the action
+        uses: ./
+      - run: aws --version

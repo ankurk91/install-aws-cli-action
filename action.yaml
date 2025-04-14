@@ -1,0 +1,13 @@
+name: 'Install AWS CLI'
+description: Install aws-cli v2 on self-hosted runners
+branding:
+  icon: 'download-cloud'
+  color: 'green'
+runs:
+  using: composite
+  steps:
+    - name: Install AWS CLI
+      shell: bash
+      run: |
+        chmod +x "$GITHUB_ACTION_PATH/install-aws-cli.sh"
+        "$GITHUB_ACTION_PATH/install-aws-cli.sh"
