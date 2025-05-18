@@ -1,13 +1,34 @@
 name: 'Install AWS CLI'
-description: Install aws-cli v2 on self-hosted runners
+description: Install aws-cli v2 on self-hosted linux runners
 branding:
   icon: 'download-cloud'
   color: 'green'
+inputs:
+  cache:
+    description: 'Cache the downloaded AWS CLI ZIP file'
+    required: false
+    default: 'true'
 runs:
   using: composite
   steps:
-    - name: Install AWS CLI
+    - name: Check if AWS CLI is pre-installed
+      id: aws-binary-check
       shell: bash
-      run: |
-        chmod +x "$GITHUB_ACTION_PATH/install-aws-cli.sh"
-        "$GITHUB_ACTION_PATH/install-aws-cli.sh"
+      run: "$GITHUB_ACTION_PATH/scripts/verify-aws-cli.sh"
+
+    - name: Cache or Restore the zip
+      if: ${{ inputs.cache == 'true' && steps.aws-binary-check.outputs.AWS_CLI_PREINSTALLED == 'false' }}
+      uses: actions/cache@v4
+      id: aws-cli-cache
+      with:
+        path: /tmp/aws-cli-cache/*.zip
+        key: ${{ runner.os }}-${{ runner.arch }}-aws-cli-v2-zip
+
+    - name: Install AWS CLI
+      if: ${{ steps.aws-binary-check.outputs.AWS_CLI_PREINSTALLED == 'false' }}
+      env:
+        CACHE_HIT: ${{ steps.aws-cli-cache.outputs.cache-hit == 'true' }}
+        CACHE_ENABLED: ${{ inputs.cache == 'true'}}
+        CACHE_PATH: /tmp/aws-cli-cache
+      shell: bash
+      run: "$GITHUB_ACTION_PATH/scripts/install-aws-cli.sh"

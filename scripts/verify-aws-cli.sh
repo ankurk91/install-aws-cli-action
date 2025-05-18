@@ -1,0 +1,12 @@
+#!/bin/bash
+set -euo pipefail
+IFS=$'\n\t'
+
+if command -v aws &>/dev/null; then
+    echo "AWS_CLI_PREINSTALLED=true" >> "$GITHUB_OUTPUT"
+    echo "aws-cli is already installed."
+    aws --version
+    exit 0
+fi
+
+echo "AWS_CLI_PREINSTALLED=false" >> "$GITHUB_OUTPUT"

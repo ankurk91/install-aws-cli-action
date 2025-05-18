@@ -7,34 +7,41 @@ on:
   push:
     branches:
       - main
+      - dev
   pull_request:
     branches:
       - main
+      - dev
 
 jobs:
-  when-aws-cli-does-not-exist:
+  if-does-not-exist:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 5
 
     strategy:
       fail-fast: false
       matrix:
-        os: [ ubuntu-latest ]
-        arch: [ x64, arm64 ]
+        os: [ ubuntu-latest, ubuntu-24.04-arm ]
+        cache: [ true, false ]
 
     steps:
       - uses: actions/checkout@v4
-      # remove pre-existing one
-      - run: sudo rm -rf /usr/local/aws-cli
-      - name: Execute the action
+
+      - name: Remove AWS CLI if installed
+        run: sudo rm -rf /usr/local/aws-cli
+
+      - name: Execute this action
         uses: ./
+        with:
+          cache: ${{ matrix.cache }}
+
       - run: aws --version
 
-  when-aws-cli-already-exists:
+  if-already-exists:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
-      - name: Execute the action
+      - name: Execute this action
         uses: ./
       - run: aws --version
