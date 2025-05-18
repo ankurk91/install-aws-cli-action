@@ -4,12 +4,13 @@ IFS=$'\n\t'
 
 echo "::debug::CACHE_ENABLED=$CACHE_ENABLED"
 echo "::debug::CACHE_HIT=$CACHE_HIT"
+echo "::debug::CACHE_PATH=$CACHE_PATH"
+
+ZIP_FILE_NAME="awscli-exe-linux-$(uname -m).zip"
 
 # Create and enter temporary directory
 mkdir -p "$CACHE_PATH"
 cd "$CACHE_PATH"
-
-ZIP_FILE_NAME="awscli-exe-linux-$(uname -m).zip"
 
 download_zip() {
   echo "Downloading file: $ZIP_FILE_NAME"

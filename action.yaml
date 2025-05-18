@@ -21,7 +21,7 @@ runs:
       uses: actions/cache@v4
       id: aws-cli-cache
       with:
-        path: /tmp/aws-cli-cache/*.zip
+        path: ${{ runner.temp }}/aws-cli-cache/*.zip
         key: ${{ runner.os }}-${{ runner.arch }}-aws-cli-v2-zip
 
     - name: Install AWS CLI
@@ -29,6 +29,6 @@ runs:
       env:
         CACHE_HIT: ${{ steps.aws-cli-cache.outputs.cache-hit == 'true' }}
         CACHE_ENABLED: ${{ inputs.cache == 'true'}}
-        CACHE_PATH: /tmp/aws-cli-cache
+        CACHE_PATH: ${{ runner.temp }}/aws-cli-cache
       shell: bash
       run: "$GITHUB_ACTION_PATH/scripts/install-aws-cli.sh"
