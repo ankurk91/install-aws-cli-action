@@ -1,11 +1,11 @@
 name: 'Install AWS CLI'
-description: Install aws-cli v2 on self-hosted linux runners
+description: Install AWS CLI v2 on self-hosted linux runners
 branding:
   icon: 'download-cloud'
   color: 'green'
 inputs:
   cache:
-    description: 'Cache the downloaded AWS CLI ZIP file'
+    description: 'Cache the downloaded AWS CLI zip file'
     required: false
     default: 'true'
 runs:

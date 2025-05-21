@@ -1,0 +1,30 @@
+name: lint
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 16 * *'
+  push:
+    branches:
+      - main
+      - dev
+  pull_request:
+    branches:
+      - main
+      - dev
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Lint bash scripts
+        run: |
+          shellcheck \
+          -s bash \
+          --external-sources \
+          --check-sourced \
+          --severity=warning scripts/*.sh || exit 1

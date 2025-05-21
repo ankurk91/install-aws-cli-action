@@ -4,7 +4,7 @@ IFS=$'\n\t'
 
 if command -v aws &>/dev/null; then
     echo "AWS_CLI_PREINSTALLED=true" >> "$GITHUB_OUTPUT"
-    echo "aws-cli is already installed."
+    echo "AWS CLI is already installed."
     aws --version
     exit 0
 fi
