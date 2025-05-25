@@ -21,10 +21,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Lint bash scripts
-        run: |
-          shellcheck \
-          -s bash \
-          --external-sources \
-          --check-sourced \
-          --severity=warning scripts/*.sh || exit 1
+      - name: Run the sh-checker
+        uses: luizm/action-sh-checker@master
+        env:
+          SHFMT_OPTS: --simplify --keep-padding
+        with:
+          sh_checker_checkbashisms_enable: true
+          sh_checker_shfmt_disable: true

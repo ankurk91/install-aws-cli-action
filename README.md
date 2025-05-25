@@ -58,4 +58,4 @@ This repo was inspired by [quipper/setup-aws-cli-action](https://github.com/quip
 
 ### License
 
-This repo is licensed under MIT license.
+This repo is licensed under MIT [License](LICENSE.txt).
