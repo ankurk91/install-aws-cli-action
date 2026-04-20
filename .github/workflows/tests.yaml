@@ -25,7 +25,7 @@ jobs:
         cache: [ true, false ]
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Remove AWS CLI if installed
         run: sudo rm -rf /usr/local/aws-cli
@@ -41,7 +41,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Execute this action
         uses: ./
       - run: aws --version

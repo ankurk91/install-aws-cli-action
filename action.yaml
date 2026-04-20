@@ -18,7 +18,7 @@ runs:
 
     - name: Cache or Restore the zip
       if: ${{ inputs.cache == 'true' && steps.aws-binary-check.outputs.AWS_CLI_PREINSTALLED == 'false' }}
-      uses: actions/cache@v4
+      uses: actions/cache@v5
       id: aws-cli-cache
       with:
         path: ${{ runner.temp }}/aws-cli-cache/*.zip
